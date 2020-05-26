@@ -11,13 +11,15 @@ import Json from './json'
 const printTypes = ['pdf', 'html', 'image', 'json', 'raw-html']
 
 export default {
-  init () {
+  init() {
     let params = {
       printable: null,
       fallbackPrintable: null,
       type: 'pdf',
       header: null,
       headerStyle: 'font-weight: 300;',
+      footer: null,
+      footerStyle: 'font-weight: 300;',
       maxWidth: 800,
       font: 'TimesNewRoman',
       font_size: '12pt',

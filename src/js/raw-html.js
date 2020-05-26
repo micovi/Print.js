@@ -9,6 +9,16 @@ export default {
     // Set our raw html as the printable element inner html content
     params.printableElement.innerHTML = params.printable
 
+    // Add header
+    if (params.header) {
+      addHeader(params.printableElement, params)
+    }
+
+    // Add footer
+    if (params.footer) {
+      addFooter(params.printableElement, params)
+    }
+
     // Print html contents
     Print.send(params, printFrame)
   }
