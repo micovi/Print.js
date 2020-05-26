@@ -1,4 +1,4 @@
-import { collectStyles, addHeader } from './functions'
+import { collectStyles, addHeader, addFooter } from './functions'
 import Print from './print'
 
 export default {
@@ -20,12 +20,17 @@ export default {
       addHeader(params.printableElement, params)
     }
 
+    // Add footer
+    if (params.footer) {
+      addFooter(params.printableElement, params)
+    }
+
     // Print html element contents
     Print.send(params, printFrame)
   }
 }
 
-function cloneElement (element, params) {
+function cloneElement(element, params) {
   // Clone the main node (if not already inside the recursion process)
   const clone = element.cloneNode()
 

@@ -1,16 +1,16 @@
 import Modal from './modal'
 import Browser from './browser'
 
-export function addWrapper (htmlData, params) {
+export function addWrapper(htmlData, params) {
   let bodyStyle = 'font-family:' + params.font + ' !important; font-size: ' + params.font_size + ' !important; width:100%;'
   return '<div style="' + bodyStyle + '">' + htmlData + '</div>'
 }
 
-export function capitalizePrint (obj) {
+export function capitalizePrint(obj) {
   return obj.charAt(0).toUpperCase() + obj.slice(1)
 }
 
-export function collectStyles (element, params) {
+export function collectStyles(element, params) {
   let win = document.defaultView || window
 
   // String variable to hold styling for each element
@@ -32,14 +32,14 @@ export function collectStyles (element, params) {
   return elementStyle
 }
 
-function targetStylesMatch (styles, value) {
+function targetStylesMatch(styles, value) {
   for (let i = 0; i < styles.length; i++) {
     if (typeof value === 'object' && value.indexOf(styles[i]) !== -1) return true
   }
   return false
 }
 
-export function addHeader (printElement, params) {
+export function addHeader(printElement, params) {
   // Create the header container div
   let headerContainer = document.createElement('div')
 
@@ -62,7 +62,30 @@ export function addHeader (printElement, params) {
   printElement.insertBefore(headerContainer, printElement.childNodes[0])
 }
 
-export function cleanUp (params) {
+export function addFooter(printElement, params) {
+  // Create the footer container div
+  let footerContainer = document.createElement('div')
+
+  // Check if the footer is text or raw html
+  if (isRawHTML(params.footer)) {
+    footerContainer.innerHTML = params.footer
+  } else {
+    // Create footer element
+    let footerElement = document.createElement('h1')
+
+    // Create footer text node
+    let footerNode = document.createTextNode(params.footer)
+
+    // Build and style
+    footerElement.appendChild(footerNode)
+    footerElement.setAttribute('style', params.footerStyle)
+    footerContainer.appendChild(footerElement)
+  }
+
+  printElement.insertBefore(footerContainer, printElement.childNodes.lastChild)
+}
+
+export function cleanUp(params) {
   // If we are showing a feedback message to user, remove it
   if (params.showModal) Modal.close()
 
@@ -91,7 +114,7 @@ export function cleanUp (params) {
   }
 }
 
-export function isRawHTML (raw) {
+export function isRawHTML(raw) {
   let regexHtml = new RegExp('<([A-Za-z][A-Za-z0-9]*)\\b[^>]*>(.*?)</\\1>')
   return regexHtml.test(raw)
 }
